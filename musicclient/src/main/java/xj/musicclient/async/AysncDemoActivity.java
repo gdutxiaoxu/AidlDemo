@@ -1,4 +1,4 @@
-package xj.musicclient.easy;
+package xj.musicclient.async;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -16,7 +16,7 @@ import xj.musicserver.easy.IEasyService;
 
 import static xj.musicclient.ParceableDemoActivity.XJ_MUSICSERVER;
 
-public class EasyDemoActivity extends AppCompatActivity {
+public class AysncDemoActivity extends AppCompatActivity {
 
     private static final String TAG = "EasyDemoActivity";
     private static final String ACTION = "xj.musicserver.easy.IEasyService";
@@ -40,10 +40,8 @@ public class EasyDemoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_easy_demo);
+        setContentView(R.layout.activity_aysnc_demo);
     }
-
-
 
     public void  onButtonClick(View v) throws RemoteException {
         switch (v.getId()){

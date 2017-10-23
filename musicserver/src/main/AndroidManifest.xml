@@ -31,6 +31,10 @@
             android:name=".easy.EasyService"
             android:enabled="true"
             android:exported="true">
+
+            <intent-filter>
+                <action android:name="xj.musicserver.easy.IEasyService"/>
+            </intent-filter>
         </service>
         <service
             android:name=".async.AsyncService"
