@@ -7,7 +7,11 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
 
+import xj.musicserver.LogUtil;
+
 public class AsyncService extends Service {
+
+    private static final String TAG = "AsyncService";
 
     static Handler mHander = new Handler() {
         @Override
@@ -23,6 +27,7 @@ public class AsyncService extends Service {
         @Override
         public void getDate(String name, final IResultListener iResultListener) throws
                 RemoteException {
+            LogUtil.i(TAG,"getDate:  name = "+name);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -67,6 +72,14 @@ public class AsyncService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-       return mIBinder;
+
+        LogUtil.i(TAG,"onBind:   intent = "+intent.toString());
+        return mIBinder;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        LogUtil.i(TAG,"onUnbind:   =");
+        return super.onUnbind(intent);
     }
 }

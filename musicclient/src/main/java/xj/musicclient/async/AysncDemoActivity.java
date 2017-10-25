@@ -12,30 +12,44 @@ import android.view.View;
 
 import xj.musicclient.LogUtil;
 import xj.musicclient.R;
-import xj.musicserver.easy.IEasyService;
+import xj.musicserver.async.IAsyncService;
+import xj.musicserver.async.IResultListener;
 
 import static xj.musicclient.ParceableDemoActivity.XJ_MUSICSERVER;
 
 public class AysncDemoActivity extends AppCompatActivity {
 
     private static final String TAG = "EasyDemoActivity";
-    private static final String ACTION = "xj.musicserver.easy.IEasyService";
+    private static final String ACTION = "xj.musicserver.async.IAsyncService";
 
-    private IEasyService mIEasyService;
+    private IAsyncService mIAsyncService;
 
 
     ServiceConnection mServiceConnection=new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            mIEasyService = IEasyService.Stub.asInterface(service);
+            mIAsyncService = IAsyncService.Stub.asInterface(service);
 
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-
+            mIAsyncService =null;
         }
     };
+
+    IResultListener.Stub mIResultListener=new IResultListener.Stub() {
+        @Override
+        public void onSuccess(String mes) throws RemoteException {
+            LogUtil.i(TAG,"onSuccess:   mes="+mes);
+        }
+
+        @Override
+        public void onError(String errorMes) throws RemoteException {
+             LogUtil.i(TAG,"onError:  errorMes = "+errorMes);
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +61,8 @@ public class AysncDemoActivity extends AppCompatActivity {
         switch (v.getId()){
             case R.id.btn_contact:
                 LogUtil.i(TAG,"onButtonClick:   btn_contact=");
-                if(mIEasyService!=null){
-                    mIEasyService.connect(" Cilent connect");
+                if(mIAsyncService !=null){
+                    mIAsyncService.getDate(" getDate ",mIResultListener);
                 }
 
                 break;
@@ -59,9 +73,11 @@ public class AysncDemoActivity extends AppCompatActivity {
                 bindService(intent,mServiceConnection, Context.BIND_AUTO_CREATE);
                 break;
             case R.id.btn_stop_service:
-                if(mIEasyService!=null){
-                    mIEasyService.disConnect(" Cilent disconnect");
-                    mIEasyService=null;
+                if(mIAsyncService !=null){
+
+                    unbindService(mServiceConnection);
+                    mIAsyncService=null;
+
                 }
                 break;
         }

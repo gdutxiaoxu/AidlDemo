@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.util.Log;
 
 import xj.musicserver.LogUtil;
 
@@ -23,7 +22,7 @@ public class EasyService extends Service {
 
         @Override
         public void disConnect(String mes) throws RemoteException {
-            Log.i(TAG, "disConnect:  mes =" +mes);
+            LogUtil.i(TAG, "disConnect:  mes =" +mes);
         }
     };
 
@@ -34,7 +33,21 @@ public class EasyService extends Service {
     }
 
     @Override
+    public void onStart(Intent intent, int startId) {
+        super.onStart(intent, startId);
+        LogUtil.i(TAG,"onStart:   =");
+    }
+
+    @Override
     public boolean onUnbind(Intent intent) {
+        LogUtil.i(TAG,"onUnbind:   =");
         return super.onUnbind(intent);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        LogUtil.i(TAG,"onDestroy:   =");
+        super.onDestroy();
     }
 }

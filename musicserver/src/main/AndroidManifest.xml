@@ -40,6 +40,10 @@
             android:name=".async.AsyncService"
             android:enabled="true"
             android:exported="true">
+
+            <intent-filter>
+                <action android:name="xj.musicserver.async.IAsyncService"/>
+            </intent-filter>
         </service>
     </application>
 

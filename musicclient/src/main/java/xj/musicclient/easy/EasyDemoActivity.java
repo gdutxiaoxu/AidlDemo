@@ -29,11 +29,12 @@ public class EasyDemoActivity extends AppCompatActivity {
         public void onServiceConnected(ComponentName name, IBinder service) {
             mIEasyService = IEasyService.Stub.asInterface(service);
 
+
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-
+            mIEasyService=null;
         }
     };
 
@@ -63,7 +64,7 @@ public class EasyDemoActivity extends AppCompatActivity {
             case R.id.btn_stop_service:
                 if(mIEasyService!=null){
                     mIEasyService.disConnect(" Cilent disconnect");
-                    mIEasyService=null;
+                    unbindService(mServiceConnection);
                 }
                 break;
         }
